@@ -59,11 +59,11 @@ namespace Tap
             referentModel.Position = new Vector2(playerModel.Position.X + playerModel.Size.X - referentModel.Size.X,
                 Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2 + 10);
 
-            score = new GameScore(this, gameFont);
+            score = new GameScore(this, gameFont, Color.Green);
             score.Position = new Vector2(playerModel.Position.X,
                 Window.ClientBounds.Width / 2 - referentModel.Size.Y);
 
-            timer = new GameTimer(this, gameFont);
+            timer = new GameTimer(this, gameFont, Color.Gray);
             timer.Position = new Vector2(playerModel.Position.X,
                 Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2);
         }

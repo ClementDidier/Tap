@@ -8,43 +8,36 @@ using System.Threading.Tasks;
 
 namespace Tap
 {
-    class GameScore : DrawableGameComponent
+    class GameScore : GameLabel
     {
         private const uint DEFAULT_SCORE_VALUE = 0;
+        private const byte MAX_BORDERS_WEIGHT = 5;
 
-        private SpriteBatch batch;
-        private SpriteFont font;
 
-        public GameScore(GameMain game, SpriteFont font) : base(game)
+        public GameScore(GameMain game, SpriteFont font, Color color) : base(game, font, color)
         {
-            this.batch = game.spriteBatch;
             this.Score = DEFAULT_SCORE_VALUE;
-            this.Position = Vector2.Zero;
-            this.font = font;
+            this.caption = String.Format("{0} pts", this.Score);
         }
 
         public void Add(uint additionnalScore)
         {
             this.Score += additionnalScore;
+            this.ChangedValueHandler(this);
         }
 
         public void Reset()
         {
             this.Score = DEFAULT_SCORE_VALUE;
+            this.ChangedValueHandler(this);
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void ChangedValueHandler(Object sender)
         {
-
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            this.batch.DrawString(this.font, String.Format("{0} pts", this.Score), this.Position, Color.DarkGreen);
+            this.caption = String.Format("{0} pts", this.Score);
+            base.ChangedValueHandler(sender);
         }
 
         public uint Score { get; private set; }
-
-        public Vector2 Position { get; set; }
     }
 }

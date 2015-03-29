@@ -84,6 +84,7 @@
     <Compile Include="Class\GameCase.cs" />
     <Compile Include="Class\GameEffects.cs" />
     <Compile Include="Class\GameFrameCounter.cs" />
+    <Compile Include="Class\GameLabel.cs" />
     <Compile Include="Class\Models\ReferentModel.cs" />
     <Compile Include="Class\GameTimer.cs" />
     <Compile Include="Class\Models\Model.cs" />

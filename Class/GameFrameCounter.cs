@@ -35,7 +35,7 @@ namespace Tap
 
         public Boolean Wait100ms()
         {
-            if (ticks++ >= this.AverageFramesPerSecond / 10)
+            if (ticks++ >= this.AverageFramesPerSecond / 20)
             {
                 ticks = 0;
                 return true;
