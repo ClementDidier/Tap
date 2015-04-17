@@ -15,13 +15,13 @@ namespace Tap
         private const decimal END_TIMER_VALUE = 0;
         private const decimal ELAPSED_TIME_VALUE = 0.1M;
 
-        private GameFrameCounter frameCounter;
+        private GameFrame frameCounter;
 
-        public GameTimer(GameMain game, SpriteFont font, Color color) : base(game, font, color)
+        public GameTimer(Designer game, SpriteFont font, Color color) : base(game, font, color)
         {
             this.Time = START_TIMER_VALUE;
             this.IsEnd = false;
-            this.frameCounter = new GameFrameCounter();
+            this.frameCounter = new GameFrame();
         }
 
         public void Reset()

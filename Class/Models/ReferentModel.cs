@@ -10,7 +10,7 @@ namespace Tap
 {
     sealed class ReferentModel : Model
     {
-        public ReferentModel(GameMain game, Texture2D caseTexture, float scale) : base(game, caseTexture)
+        public ReferentModel(Designer game, Texture2D caseTexture, float scale) : base(game, caseTexture)
         {
             Initialize();
             this.Scale = scale;

@@ -1,39 +1,35 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input.Touch;
-using System.Diagnostics;
 
 namespace Tap
 {
     public delegate void OnClickHandler(object sender);
-    public delegate void OnStateChangedHandler(object sender);
 
-    public class GameCase : DrawableGameComponent
+    public class GameButton : DrawableGameComponent
     {
-        private SpriteBatch batch;
-        private Boolean wasClicked;
-        private float scale;
-        
+        protected SpriteBatch batch;
+        protected Boolean wasClicked;
+        protected float scale;
+
         public event OnClickHandler OnClick;
-        public event OnStateChangedHandler OnStateChanged;
 
         public override void Initialize()
         {
             base.Initialize();
         }
 
-        public GameCase(GameMain game, Texture2D texture) : base(game)
+        public GameButton(Designer designer, Texture2D texture) : base(designer.game)
         {
-            this.batch = game.spriteBatch;
+            this.batch = designer.game.spriteBatch;
             this.Position = Vector2.Zero;
-            this.Texture = texture;
             this.wasClicked = false;
-            this.State = CaseState.Unselected;
+            this.Texture = texture;
             this.Scale = 1f;
             this.Size = new Vector2(this.Texture.Width, this.Texture.Height) * this.Scale;
         }
@@ -47,11 +43,11 @@ namespace Tap
                 Rectangle hitbox = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)this.Size.X, (int)this.Size.Y);
                 if (hitbox.Contains(new Point((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y)) && !this.wasClicked)
                 {
-                    this.ClickedHandler();
+                    this.Raise_ClickedHandler();
                     this.wasClicked = true;
                 }
             }
-            else if(this.wasClicked) this.wasClicked = false;
+            else if (this.wasClicked) this.wasClicked = false;
             base.Update(gameTime);
         }
 
@@ -59,14 +55,8 @@ namespace Tap
         {
             this.batch.Draw(this.Texture,
                 new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)(this.Texture.Width * Scale), (int)(this.Texture.Height * Scale)),
-                this.Texture.Bounds, (this.State.Equals(CaseState.Selected) ? Color.Gray : Color.White), 0f, Vector2.Zero, SpriteEffects.None, 1f);
+                this.Texture.Bounds, (this.wasClicked ? Color.Gray : Color.White), 0f, Vector2.Zero, SpriteEffects.None, 1f);
             base.Draw(gameTime);
-        }
-
-        public void SwitchState()
-        {
-            this.State = this.State.Equals(CaseState.Selected) ? CaseState.Unselected : CaseState.Selected;
-            this.StateChangedHandler();
         }
 
         public Vector2 Position
@@ -76,12 +66,6 @@ namespace Tap
         }
 
         public Texture2D Texture
-        {
-            get;
-            set;
-        }
-
-        public CaseState State
         {
             get;
             set;
@@ -103,29 +87,10 @@ namespace Tap
             }
         }
 
-        protected virtual void ClickedHandler()
+        protected virtual void Raise_ClickedHandler()
         {
             if (OnClick != null)
                 OnClick(this);
-        }
-
-        protected virtual void StateChangedHandler()
-        {
-            if (OnStateChanged != null)
-                OnStateChanged(this);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-            GameCase gc = (GameCase)obj;
-            return gc.State.Equals(this.State);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

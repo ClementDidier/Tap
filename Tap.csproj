@@ -80,17 +80,24 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Class\CaseState.cs" />
-    <Compile Include="Class\GameCase.cs" />
-    <Compile Include="Class\GameEffects.cs" />
-    <Compile Include="Class\GameFrameCounter.cs" />
-    <Compile Include="Class\GameLabel.cs" />
+    <Compile Include="Class\Utilities\CaseState.cs" />
+    <Compile Include="Class\Designers\Designer.cs" />
+    <Compile Include="Class\Designers\EndMenuDesigner.cs" />
+    <Compile Include="Class\Designers\MenuDesigner.cs" />
+    <Compile Include="Class\Designers\PlayDesigner.cs" />
+    <Compile Include="Class\Components\GameButton.cs" />
+    <Compile Include="Class\Components\GameCase.cs" />
+    <Compile Include="Class\Components\GameEffects.cs" />
+    <Compile Include="Class\Utilities\GameFrame.cs" />
+    <Compile Include="Class\Components\GameLabel.cs" />
+    <Compile Include="Class\Components\GamePanel.cs" />
     <Compile Include="Class\Models\ReferentModel.cs" />
-    <Compile Include="Class\GameTimer.cs" />
+    <Compile Include="Class\Components\GameTimer.cs" />
     <Compile Include="Class\Models\Model.cs" />
     <Compile Include="Class\Models\ModelState.cs" />
     <Compile Include="Class\Models\PlayerModel.cs" />
-    <Compile Include="GameScore.cs" />
+    <Compile Include="Class\Components\GameScore.cs" />
+    <Compile Include="Class\Utilities\NavigatorHelper.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>

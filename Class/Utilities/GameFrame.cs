@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tap
 {
-    class GameFrameCounter
+    class GameFrame
     {
         public const int MAXIMUM_SAMPLES = 60;
 

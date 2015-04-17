@@ -22,9 +22,9 @@ namespace Tap
 
         protected string caption;
 
-        public GameLabel(GameMain game, SpriteFont font, Color color) : base(game)
+        public GameLabel(Designer designer, SpriteFont font, Color color) : base(designer.game)
         {
-            this.batch = game.spriteBatch;
+            this.batch = designer.game.spriteBatch;
             this.caption = DEFAULT_LABEL_CAPTION;
             this.font = font;
             this.Position = Vector2.Zero;

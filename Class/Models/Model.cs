@@ -19,18 +19,18 @@ namespace Tap
         private Vector2 position;
         private float scale;
 
-        protected GameMain game;
+        protected Designer game;
         protected Texture2D caseTexture;
         protected GameCase[,] cases;
 
-        public Model(GameMain game, Texture2D caseTexture) : base(game)
+        public Model(Designer designer, Texture2D caseTexture) : base(designer.game)
         {
             this.position = Vector2.Zero;
             this.scale = 1f;
             this.Size = Vector2.Zero;
-            this.batch = game.spriteBatch;
+            this.batch = designer.game.spriteBatch;
             this.cases = new GameCase[Model.CASES_ARRAY_WIDTH, Model.CASES_ARRAY_HEIGHT];
-            this.game = game;
+            this.game = designer;
             this.caseTexture = caseTexture;
             this.Enabled = true;
         }

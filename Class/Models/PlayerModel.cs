@@ -12,7 +12,7 @@ namespace Tap
     {
         public event OnStateChangedHandler OnStateChanged;
 
-        public PlayerModel(GameMain game, Texture2D caseTexture) : base(game, caseTexture)
+        public PlayerModel(Designer game, Texture2D caseTexture) : base(game, caseTexture)
         {
             Initialize();
         }
