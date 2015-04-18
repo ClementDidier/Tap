@@ -98,6 +98,7 @@
     <Compile Include="Class\Models\PlayerModel.cs" />
     <Compile Include="Class\Components\GameScore.cs" />
     <Compile Include="Class\Utilities\NavigatorHelper.cs" />
+    <Compile Include="Content\ContentHandler.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>

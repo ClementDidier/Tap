@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,9 @@ namespace Tap
 {
     public sealed class MenuDesigner : Designer
     {
+        private Texture2D tapButtonTexture;
+        private GameButton playButton;
+
         public MenuDesigner(GameMain game) : base(game)
         {
 
@@ -15,22 +20,36 @@ namespace Tap
 
         public override void LoadContent()
         {
-            throw new NotImplementedException();
+            this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ButtonTexture);
+            this.playButton = new GameButton(this, this.tapButtonTexture);
+            this.playButton.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.playButton.Size.X / 2,
+                game.Window.ClientBounds.Height / 2 - this.playButton.Size.Y / 2);
+            this.playButton.OnClick += playButton_OnClick;
+        }
+
+        private void playButton_OnClick(object sender)
+        {
+            NavigatorHelper.NavigateTo(GameState.Play);
         }
 
         public override void UnloadContent()
         {
-            throw new NotImplementedException();
+            
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            this.playButton.Update(gameTime);
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            game.GraphicsDevice.Clear(Color.Black);
+            game.spriteBatch.Begin();
+
+            this.playButton.Draw(gameTime);
+
+            game.spriteBatch.End();
         }
     }
 }

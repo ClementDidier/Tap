@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Tap
 {
+    public delegate void OnStopHandler(object sender);
+
     class GameTimer : GameLabel
     {
         private const decimal START_TIMER_VALUE = 20M;
@@ -16,6 +18,8 @@ namespace Tap
         private const decimal ELAPSED_TIME_VALUE = 0.1M;
 
         private GameFrame frameCounter;
+
+        public event OnStopHandler OnStop;
 
         public GameTimer(Designer game, SpriteFont font, Color color) : base(game, font, color)
         {
@@ -35,18 +39,28 @@ namespace Tap
             frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             if(frameCounter.Wait100ms())
             {
-                if (this.Time > END_TIMER_VALUE) 
-                { 
+                if (this.Time > END_TIMER_VALUE)
+                {
                     this.Time -= ELAPSED_TIME_VALUE;
                     this.caption = this.Time.ToString().Replace(',', '.');
                 }
-                else this.IsEnd = true;
+                else if(this.IsEnd != true)
+                {
+                    this.IsEnd = true;
+                    this.Raise_OnStop();
+                }
             }
         }
 
         public void Add(decimal additionnalTime)
         {
             this.Time += additionnalTime;
+        }
+
+        private void Raise_OnStop()
+        {
+            if (this.OnStop != null)
+                this.OnStop(this);
         }
 
         public decimal Time { get; private set; }

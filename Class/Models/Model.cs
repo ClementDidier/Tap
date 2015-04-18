@@ -19,7 +19,7 @@ namespace Tap
         private Vector2 position;
         private float scale;
 
-        protected Designer game;
+        protected Designer designer;
         protected Texture2D caseTexture;
         protected GameCase[,] cases;
 
@@ -30,7 +30,7 @@ namespace Tap
             this.Size = Vector2.Zero;
             this.batch = designer.game.spriteBatch;
             this.cases = new GameCase[Model.CASES_ARRAY_WIDTH, Model.CASES_ARRAY_HEIGHT];
-            this.game = designer;
+            this.designer = designer;
             this.caseTexture = caseTexture;
             this.Enabled = true;
         }

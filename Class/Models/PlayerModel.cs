@@ -12,7 +12,7 @@ namespace Tap
     {
         public event OnStateChangedHandler OnStateChanged;
 
-        public PlayerModel(Designer game, Texture2D caseTexture) : base(game, caseTexture)
+        public PlayerModel(Designer designer, Texture2D caseTexture) : base(designer, caseTexture)
         {
             Initialize();
         }
@@ -24,7 +24,7 @@ namespace Tap
             {
                 for (byte yCase = 0; yCase < this.cases.GetLength(1); yCase++)
                 {
-                    this.cases[xCase, yCase] = new GameCase(game, caseTexture);
+                    this.cases[xCase, yCase] = new GameCase(designer, caseTexture);
                     this.cases[xCase, yCase].OnClick += CaseClickedHandler;
                     this.cases[xCase, yCase].OnStateChanged += StateChangedHandler;
                 }

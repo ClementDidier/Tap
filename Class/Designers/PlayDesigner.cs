@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,10 @@ namespace Tap
         private Texture2D tapButtonTexture;
         private SpriteFont gameFont;
 
-        public PlayDesigner(GameMain game, SpriteFont font, Texture2D buttonTexture) : base(game)
+        public PlayDesigner(GameMain game) : base(game)
         {
-            this.tapButtonTexture = buttonTexture;
-            this.gameFont = font;
+            this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ButtonTexture);
+            this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.TimerFont);
         }
 
         public override void LoadContent()
@@ -42,6 +43,13 @@ namespace Tap
             timer = new GameTimer(this, gameFont, Color.Gray);
             timer.Position = new Vector2(playerModel.Position.X,
                 game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2);
+            timer.OnStop += timer_OnStop;
+        }
+
+        private void timer_OnStop(object sender)
+        {
+            Debug.WriteLine("Stopped");
+            NavigatorHelper.NavigateTo(GameState.EndMenu);
         }
 
         public override void UnloadContent()

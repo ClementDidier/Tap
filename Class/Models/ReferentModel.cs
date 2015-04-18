@@ -26,7 +26,7 @@ namespace Tap
             
             for (int xCase = 0; xCase < this.cases.GetLength(0); xCase++)
                 for (int yCase = 0; yCase < this.cases.GetLength(1); yCase++)
-                    this.cases[xCase, yCase] = new GameCase(game, caseTexture);
+                    this.cases[xCase, yCase] = new GameCase(designer, caseTexture);
         }
 
         public void GenerateNewStage()

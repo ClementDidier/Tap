@@ -17,22 +17,27 @@ namespace Tap
 
         public override void LoadContent()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void UnloadContent()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Draw(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            game.GraphicsDevice.Clear(Color.Black);
+            game.spriteBatch.Begin();
+
+
+
+            game.spriteBatch.End();
         }
     }
 }

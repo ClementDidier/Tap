@@ -15,7 +15,7 @@ namespace Tap
 
     sealed class NavigatorHelper
     {
-        public static void SetGameState(GameState state)
+        public static void NavigateTo(GameState state)
         {
             switch(state)
             {
@@ -29,6 +29,7 @@ namespace Tap
                     GameMain.Designer = GameMain.EndMenuDesigner;
                     break;
             }
+            GameMain.Designer.LoadContent();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 
@@ -9,19 +10,15 @@ namespace Tap
     /// </summary>
     public class GameMain : Game
     {
-        private const string BUTTON_TEXTURE_NAME = "TapButton";
-        private const string TIMER_FONT_NAME = "Font";
-
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
 
-        private Texture2D tapButtonTexture;
-        private SpriteFont gameFont;
+        public new static ContentManager Content;
 
         public GameMain() : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content = new ContentManager(this.Services, "Content");
         }
 
         protected override void Initialize()
@@ -32,17 +29,17 @@ namespace Tap
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            tapButtonTexture = Content.Load<Texture2D>(BUTTON_TEXTURE_NAME);
-            gameFont = Content.Load<SpriteFont>(TIMER_FONT_NAME);
+            ContentHandler.Add<Texture2D>(GameResources.ButtonTexture);
+            ContentHandler.Add<SpriteFont>(GameResources.TimerFont);
 
             /* Load Designers */
-            PlayDesigner = new PlayDesigner(this, gameFont, tapButtonTexture);
-            
+            MenuDesigner    = new MenuDesigner(this);
+            PlayDesigner    = new PlayDesigner(this);
+            EndMenuDesigner = new EndMenuDesigner(this);
             /******************/
 
-            NavigatorHelper.SetGameState(GameState.Play);
+            NavigatorHelper.NavigateTo(GameState.Menu);
 
-            Designer.LoadContent();
             base.LoadContent();
         }
 
