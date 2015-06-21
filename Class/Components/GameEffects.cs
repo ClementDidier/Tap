@@ -8,5 +8,9 @@ namespace Tap
 {
     class GameEffects
     {
+        public GameEffects()
+        {
+
+        }
     }
 }

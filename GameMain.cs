@@ -30,7 +30,7 @@ namespace Tap
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ContentHandler.Add<Texture2D>(GameResources.ButtonTexture);
-            ContentHandler.Add<SpriteFont>(GameResources.TimerFont);
+            ContentHandler.Add<SpriteFont>(GameResources.Font);
 
             /* Load Designers */
             MenuDesigner    = new MenuDesigner(this);
@@ -38,7 +38,7 @@ namespace Tap
             EndMenuDesigner = new EndMenuDesigner(this);
             /******************/
 
-            NavigatorHelper.NavigateTo(GameState.Menu);
+            NavigationHelper.NavigateTo(GameState.Menu);
 
             base.LoadContent();
         }

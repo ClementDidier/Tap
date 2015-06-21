@@ -13,7 +13,7 @@ namespace Tap
         EndMenu
     }
 
-    sealed class NavigatorHelper
+    sealed class NavigationHelper
     {
         public static void NavigateTo(GameState state)
         {

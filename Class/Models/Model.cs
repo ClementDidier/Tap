@@ -17,6 +17,7 @@ namespace Tap
         
         private SpriteBatch batch;
         private Vector2 position;
+        private Vector2 size;
         private float scale;
 
         protected Designer designer;
@@ -27,7 +28,6 @@ namespace Tap
         {
             this.position = Vector2.Zero;
             this.scale = 1f;
-            this.Size = Vector2.Zero;
             this.batch = designer.game.spriteBatch;
             this.cases = new GameCase[Model.CASES_ARRAY_WIDTH, Model.CASES_ARRAY_HEIGHT];
             this.designer = designer;
@@ -87,10 +87,16 @@ namespace Tap
             {
                 this.scale = value;
                 RefreshCases();
+                this.Size = new Vector2(CASES_ARRAY_WIDTH * this.cases[0, 0].Size.X + (CASES_ARRAY_WIDTH - 1) * this.Scale * CASES_MARGIN, CASES_ARRAY_HEIGHT * this.cases[0, 0].Size.Y + (CASES_ARRAY_HEIGHT - 1) * this.Scale * CASES_MARGIN);
+                RefreshCases();
             }
         }
 
-        public Vector2 Size { get; set; }
+        public Vector2 Size 
+        {
+            get { return this.size; }
+            set { this.size = value; }
+        }
 
         public GameCase Case(byte x, byte y)
         {

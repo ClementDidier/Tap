@@ -28,9 +28,9 @@ namespace Tap
 
         public override void Draw(GameTime gameTime)
         {
-            this.batch.Draw(this.Texture,
-                new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)(this.Texture.Width * Scale), (int)(this.Texture.Height * Scale)),
-                this.Texture.Bounds, (this.State.Equals(CaseState.Selected) ? Color.Gray : Color.White), 0f, Vector2.Zero, SpriteEffects.None, 1f);
+            Rectangle rect = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)(this.Texture.Width * Scale), (int)(this.Texture.Height * Scale));
+            this.batch.Draw(this.Texture, rect, this.Texture.Bounds, (this.State.Equals(CaseState.Selected) ? Color.Gray : Color.White), 0f, Vector2.Zero, SpriteEffects.None, 1f);
+            this.DrawBorder(rect);
         }
 
         public void SwitchState()

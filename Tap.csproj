@@ -80,6 +80,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Class\Components\GameDynamicBackground.cs" />
+    <Compile Include="Class\Components\GameRectangle.cs" />
     <Compile Include="Class\Utilities\CaseState.cs" />
     <Compile Include="Class\Designers\Designer.cs" />
     <Compile Include="Class\Designers\EndMenuDesigner.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Class\Models\PlayerModel.cs" />
     <Compile Include="Class\Components\GameScore.cs" />
     <Compile Include="Class\Utilities\NavigatorHelper.cs" />
+    <Compile Include="Class\Utilities\Timer.cs" />
     <Compile Include="Content\ContentHandler.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="GamePage.xaml.cs">

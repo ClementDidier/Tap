@@ -13,7 +13,7 @@ namespace Tap
 
     class GameTimer : GameLabel
     {
-        private const decimal START_TIMER_VALUE = 20M;
+        private const decimal START_TIMER_VALUE = 30M;
         private const decimal END_TIMER_VALUE = 0;
         private const decimal ELAPSED_TIME_VALUE = 0.1M;
 
@@ -26,6 +26,8 @@ namespace Tap
             this.Time = START_TIMER_VALUE;
             this.IsEnd = false;
             this.frameCounter = new GameFrame();
+            this.BorderThickness = 1;
+            this.BorderColor = Color.Black;
         }
 
         public void Reset()
@@ -42,7 +44,7 @@ namespace Tap
                 if (this.Time > END_TIMER_VALUE)
                 {
                     this.Time -= ELAPSED_TIME_VALUE;
-                    this.caption = this.Time.ToString().Replace(',', '.');
+                    this.caption = string.Format("{0} sec", this.Time.ToString().Replace(',', '.'));
                 }
                 else if(this.IsEnd != true)
                 {
@@ -63,7 +65,21 @@ namespace Tap
                 this.OnStop(this);
         }
 
-        public decimal Time { get; private set; }
-        public Boolean IsEnd { get; private set; }
+        public decimal Time 
+        {
+            get; 
+            private set; 
+        }
+
+        public Boolean IsEnd 
+        {
+            get;
+            private set;
+        }
+
+        public decimal Total
+        {
+            get { return START_TIMER_VALUE; }
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Tap
     static class GameResources
     {
         public const String ButtonTexture = "TapButton";
-        public const String TimerFont = "Font";
+        public const String Font = "Font";
     }
 
     static class ContentHandler

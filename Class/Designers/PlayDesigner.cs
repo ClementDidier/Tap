@@ -15,6 +15,7 @@ namespace Tap
         private ReferentModel referentModel;
         private GameScore score;
         private GameTimer timer;
+        private GameDynamicBackground background;
 
         private Texture2D tapButtonTexture;
         private SpriteFont gameFont;
@@ -22,13 +23,15 @@ namespace Tap
         public PlayDesigner(GameMain game) : base(game)
         {
             this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ButtonTexture);
-            this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.TimerFont);
+            this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.Font);
         }
 
         public override void LoadContent()
         {
             playerModel = new PlayerModel(this, tapButtonTexture);
             playerModel.OnStateChanged += PlayerModel_OnStateChanged;
+            playerModel.Scale = game.Window.ClientBounds.Width / playerModel.Size.X - 0.5f;
+            Debug.WriteLine(game.Window.ClientBounds.Width);
             playerModel.Position = new Vector2(game.Window.ClientBounds.Width / 2 - playerModel.Size.X / 2,
                 game.Window.ClientBounds.Height - 1.3f * playerModel.Size.Y);
 
@@ -36,20 +39,22 @@ namespace Tap
             referentModel.Position = new Vector2(playerModel.Position.X + playerModel.Size.X - referentModel.Size.X,
                 game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2 + 10);
 
-            score = new GameScore(this, gameFont, Color.Green);
+            score = new GameScore(this, gameFont, Color.LightGreen);
             score.Position = new Vector2(playerModel.Position.X,
                 game.Window.ClientBounds.Width / 2 - referentModel.Size.Y);
 
-            timer = new GameTimer(this, gameFont, Color.Gray);
+            timer = new GameTimer(this, gameFont, Color.WhiteSmoke);
             timer.Position = new Vector2(playerModel.Position.X,
                 game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2);
             timer.OnStop += timer_OnStop;
+
+            background = new GameDynamicBackground(this, timer);
         }
 
         private void timer_OnStop(object sender)
         {
-            Debug.WriteLine("Stopped");
-            NavigatorHelper.NavigateTo(GameState.EndMenu);
+            System.Threading.Thread.Sleep(1000);
+            NavigationHelper.NavigateTo(GameState.EndMenu);
         }
 
         public override void UnloadContent()
@@ -62,6 +67,7 @@ namespace Tap
             playerModel.Enabled = !timer.IsEnd;
             referentModel.Enabled = !timer.IsEnd;
 
+            background.Update(gameTime);
             playerModel.Update(gameTime);
             referentModel.Update(gameTime);
             score.Update(gameTime);
@@ -70,9 +76,10 @@ namespace Tap
 
         public override void Draw(GameTime gameTime)
         {
-            game.GraphicsDevice.Clear(Color.Black);
+            game.GraphicsDevice.Clear(background.BackgroundColor);
             game.spriteBatch.Begin();
 
+            background.Draw(gameTime);
             playerModel.Draw(gameTime);
             referentModel.Draw(gameTime);
             score.Draw(gameTime);
@@ -86,6 +93,7 @@ namespace Tap
             if (playerModel.IsFalseThan(referentModel))
             {
                 playerModel.Clear();
+                background.RaiseBadResult();
             }
             else if (playerModel.Equals(referentModel))
             {
@@ -93,6 +101,8 @@ namespace Tap
                 score.Add(referentModel.SelectedCasesCount);
                 referentModel.GenerateNewStage();
                 playerModel.Clear();
+
+                background.RaiseGoodResult();
             }
         }
     }

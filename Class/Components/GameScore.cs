@@ -18,6 +18,8 @@ namespace Tap
         {
             this.Score = DEFAULT_SCORE_VALUE;
             this.caption = String.Format("{0} pts", this.Score);
+            this.BorderColor = Color.Black;
+            this.BorderThickness = 1;
         }
 
         public void Add(uint additionnalScore)

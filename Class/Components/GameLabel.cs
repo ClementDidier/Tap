@@ -13,12 +13,12 @@ namespace Tap
         public delegate void OnValueChangedHandler(Object sender);
         public event OnValueChangedHandler OnValueChanged;
 
-        private const byte MAX_BORDERS_WEIGHT = 5;
+        private const byte MAX_BORDERS_THICKNESS = 5;
         private const string DEFAULT_LABEL_CAPTION ="";
 
         private SpriteBatch batch;
         private SpriteFont font;
-        private byte bordersWeight;
+        private byte borderThickness;
 
         protected string caption;
 
@@ -29,25 +29,27 @@ namespace Tap
             this.font = font;
             this.Position = Vector2.Zero;
             this.Color = color;
-            this.Borders = false;
-            this.BordersColor = Color.White;
-            this.bordersWeight = 1;
+            this.BorderColor = Color.White;
+            this.borderThickness = 0;
         }
 
-        public override void Update(GameTime gameTime) { }
+        public override void Update(GameTime gameTime) 
+        { 
+
+        }
 
         public override void Draw(GameTime gameTime)
         {
-            if (this.Borders) this.DrawBorders();
+            this.DrawBorders();
             this.batch.DrawString(this.font, this.ToString(), this.Position, this.Color);
         }
 
         private void DrawBorders()
         {
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X + this.BordersWeight, this.Position.Y), this.BordersColor);
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X - this.BordersWeight, this.Position.Y), this.BordersColor);
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y + this.BordersWeight), this.BordersColor);
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y - this.BordersWeight), this.BordersColor);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X + this.BorderThickness, this.Position.Y), this.BorderColor);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X - this.BorderThickness, this.Position.Y), this.BorderColor);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y + this.BorderThickness), this.BorderColor);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y - this.BorderThickness), this.BorderColor);
         }
 
         public override string ToString()
@@ -61,11 +63,43 @@ namespace Tap
                 OnValueChanged(sender);
         }
 
-        public String Caption { get { return this.caption; } set { this.caption = value; ChangedValueHandler(this); } }
-        public Vector2 Position { get; set; }
-        public Color Color { get; set; }
-        public Boolean Borders { get; set; }
-        public Color BordersColor { get; set; }
-        public byte BordersWeight { get { return this.bordersWeight; } set { this.bordersWeight = (value < MAX_BORDERS_WEIGHT) ? value : MAX_BORDERS_WEIGHT; } }
+        public String Caption 
+        {
+            get { return this.caption; }
+            set 
+            {
+                this.caption = value; 
+                ChangedValueHandler(this); 
+            } 
+        }
+
+        public Vector2 Position 
+        { 
+            get; 
+            set; 
+        }
+
+        public Color Color 
+        { 
+            get; 
+            set; 
+        }
+
+        public Color BorderColor
+        { 
+            get;
+            set; 
+        }
+
+        public byte BorderThickness 
+        { 
+            get { return this.borderThickness; }
+            set { this.borderThickness = (value < MAX_BORDERS_THICKNESS) ? value : MAX_BORDERS_THICKNESS; } 
+        }
+
+        public Vector2 Size
+        {
+            get { return font.MeasureString(this.caption); }
+        }
     }
 }
