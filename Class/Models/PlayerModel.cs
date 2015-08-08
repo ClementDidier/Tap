@@ -11,6 +11,7 @@ namespace Tap
     sealed class  PlayerModel : Model
     {
         public event OnStateChangedHandler OnStateChanged;
+        private float originalScale;
 
         public PlayerModel(Designer designer, Texture2D caseTexture) : base(designer, caseTexture)
         {
@@ -34,6 +35,8 @@ namespace Tap
 
             this.Size = new Vector2(CASES_ARRAY_WIDTH * this.cases[0, 0].Size.X + (CASES_ARRAY_WIDTH - 1) * this.Scale * CASES_MARGIN,
                     CASES_ARRAY_HEIGHT * this.cases[0, 0].Size.Y + (CASES_ARRAY_HEIGHT - 1) * this.Scale * CASES_MARGIN);
+
+            this.originalScale = this.Scale;
         }
 
         public Boolean IsFalseThan(Model model)
@@ -49,6 +52,36 @@ namespace Tap
             return false;
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            if (this.InScaleAnimation)
+            {
+                this.Scale -= 0.015f;
+
+                if (this.Scale < this.originalScale)
+                {
+                    this.Scale = this.originalScale;
+                    this.InScaleAnimation = false;
+                }
+
+                this.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - this.Size.X / 2, Game.Window.ClientBounds.Height - 1.3f * this.Size.Y);
+            }
+            else
+            {
+                base.Update(gameTime);
+            }
+        }
+
+        public void AnimateScale()
+        {
+            if (!this.InScaleAnimation)
+            {
+                this.originalScale = this.Scale;
+                this.Scale = 2f;
+                this.InScaleAnimation = true;
+            }
+        }
+
         private void CaseClickedHandler(object sender)
         {
             if (this.Enabled)
@@ -62,6 +95,12 @@ namespace Tap
         {
             if (OnStateChanged != null)
                 OnStateChanged(sender);
+        }
+
+        public bool InScaleAnimation
+        {
+            get;
+            private set;
         }
     }
 }

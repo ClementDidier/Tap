@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Tap
 {
@@ -26,12 +21,12 @@ namespace Tap
             this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.Font);
         }
 
-        public override void LoadContent()
+        public override void LoadContent(object obj = null)
         {
             playerModel = new PlayerModel(this, tapButtonTexture);
             playerModel.OnStateChanged += PlayerModel_OnStateChanged;
             playerModel.Scale = game.Window.ClientBounds.Width / playerModel.Size.X - 0.5f;
-            Debug.WriteLine(game.Window.ClientBounds.Width);
+
             playerModel.Position = new Vector2(game.Window.ClientBounds.Width / 2 - playerModel.Size.X / 2,
                 game.Window.ClientBounds.Height - 1.3f * playerModel.Size.Y);
 
@@ -53,8 +48,8 @@ namespace Tap
 
         private void timer_OnStop(object sender)
         {
-            System.Threading.Thread.Sleep(1000);
-            NavigationHelper.NavigateTo(GameState.EndMenu);
+            Thread.Sleep(2000);
+            NavigationHelper.NavigateTo(GameState.EndMenu, score);
         }
 
         public override void UnloadContent()
@@ -97,10 +92,11 @@ namespace Tap
             }
             else if (playerModel.Equals(referentModel))
             {
-                timer.Add(referentModel.SelectedCasesCount * 0.2M);
+                timer.Add(referentModel.SelectedCasesCount * 0.3M);
                 score.Add(referentModel.SelectedCasesCount);
                 referentModel.GenerateNewStage();
                 playerModel.Clear();
+                playerModel.AnimateScale();
 
                 background.RaiseGoodResult();
             }

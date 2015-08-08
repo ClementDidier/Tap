@@ -16,7 +16,7 @@ namespace Tap
         protected static SpriteFont DEFAULT_FONT = ContentHandler.Load<SpriteFont>(GameResources.Font);
         protected static Color DEFAULT_COLOR = Color.Black;
         protected SpriteBatch batch;
-        protected Boolean wasClicked;
+        protected bool wasClicked;
         protected float scale;
 
         private Texture2D pixel;
@@ -55,7 +55,7 @@ namespace Tap
             if (touchCollection.Count > 0)
             {
                 Rectangle hitbox = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)this.Size.X, (int)this.Size.Y);
-                if (hitbox.Contains(new Point((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y)) && !this.wasClicked)
+                if (hitbox.Contains(new Point((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y)) && !this.wasClicked && this.Enabled)
                 {
                     this.Raise_ClickedHandler();
                     this.wasClicked = true;

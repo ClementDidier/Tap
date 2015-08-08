@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Tap
 {
-    public abstract class Designer
+    public abstract class Designer : Navigable
     {
         public GameMain game;
 
@@ -17,8 +17,6 @@ namespace Tap
             this.game = game;
         }
 
-        public abstract void LoadContent();
-        public abstract void UnloadContent();
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(GameTime gameTime);
     }

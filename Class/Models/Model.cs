@@ -19,7 +19,7 @@ namespace Tap
         private Vector2 position;
         private Vector2 size;
         private float scale;
-
+        
         protected Designer designer;
         protected Texture2D caseTexture;
         protected GameCase[,] cases;
@@ -51,9 +51,8 @@ namespace Tap
         public override void Update(GameTime gameTime)
         {
             foreach (GameCase gc in this.cases)
-            {
                 gc.Update(gameTime);
-            }
+
             base.Update(gameTime);
         }
 

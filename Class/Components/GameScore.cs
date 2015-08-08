@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tap
 {
@@ -17,7 +13,7 @@ namespace Tap
         public GameScore(Designer game, SpriteFont font, Color color) : base(game, font, color)
         {
             this.Score = DEFAULT_SCORE_VALUE;
-            this.caption = String.Format("{0} pts", this.Score);
+            this.caption = string.Format("{0} pts", this.Score);
             this.BorderColor = Color.Black;
             this.BorderThickness = 1;
         }
@@ -36,7 +32,7 @@ namespace Tap
 
         protected override void ChangedValueHandler(Object sender)
         {
-            this.caption = String.Format("{0} pts", this.Score);
+            this.caption = string.Format("{0} pts", this.Score);
             base.ChangedValueHandler(sender);
         }
 

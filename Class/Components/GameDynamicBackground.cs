@@ -48,6 +48,7 @@ namespace Tap
             this.batch = designer.game.spriteBatch;
             this.rectangles = new List<GameRectangle>();
 
+            // Création des rectangles
             for (int i = 0; i < RECTANGLES_COUNT; i++)
             {
                 int size = rand.Next(50, MAX_SIZE);
@@ -63,7 +64,7 @@ namespace Tap
 
         public override void Update(GameTime gameTime)
         {
-            if(gameTimer != null)
+            /*if(gameTimer != null)
             {
                 decimal poucentage = gameTimer.Time / gameTimer.Total;
                 this.originBackgroundColor.R = (byte)(BACKGROUND_R * poucentage);
@@ -71,7 +72,7 @@ namespace Tap
                 this.originBackgroundColor.B = (byte)(BACKGROUND_B * poucentage);
 
                 this.backgroundColor = this.originBackgroundColor;
-            }
+            }*/
 
             if (inResult)
             {
