@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="282543D51BCEE.FastTap" Publisher="CN=514A2ABA-E033-438B-A1D3-27FBF5805E2A" Version="1.0.0.0" />
+  <Identity Name="282543D51BCEE.FastTap" Publisher="CN=514A2ABA-E033-438B-A1D3-27FBF5805E2A" Version="1.0.1.1" />
   <mp:PhoneIdentity PhoneProductId="6b7ef0ae-b8a5-4d58-836f-a6b576c1bd56" PhonePublisherId="0df4bf76-7146-42eb-ba7c-83daa7249a23" />
   <Properties>
     <DisplayName>FastTap</DisplayName>
