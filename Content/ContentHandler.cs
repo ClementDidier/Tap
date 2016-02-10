@@ -12,20 +12,21 @@ namespace Tap
 {
     static class GameResources
     {
-        public const String ButtonTexture = "TapButton";
-        public const String Font = "Font";
+        public const string ButtonTexture = "TapButton";
+        public const string Logo = "Logo";
+        public const string Font = "Font";
     }
 
     static class ContentHandler
     {
-        public static Dictionary<String, Object> Contents = new Dictionary<String, Object>();
+        public static Dictionary<string, object> Contents = new Dictionary<string, object>();
 
-        public static void Add<T>(String file)
+        public static void Add<T>(string file)
         {
             Contents.Add(file, GameMain.Content.Load<T>(file));
         }
 
-        public static T Load<T>(String file)
+        public static T Load<T>(string file)
         {
             return (T) Contents[file];
         }

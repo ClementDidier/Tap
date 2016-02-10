@@ -23,7 +23,7 @@ namespace Tap
 
             this.replayButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
             this.replayButton.Size = new Vector2(300, 100);
-            this.replayButton.Text = "Rejouer";
+            this.replayButton.Text = Resources.AppResources.ButtonReplayText;
             this.replayButton.TextColor = Color.White;
             this.replayButton.BackgroundColor = Color.LawnGreen;
             this.replayButton.BorderColor = Color.White;
@@ -31,7 +31,7 @@ namespace Tap
 
             this.backButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
             this.backButton.Size = new Vector2(300, 100);
-            this.backButton.Text = "Menu";
+            this.backButton.Text = Resources.AppResources.ButtonMenuText;
             this.backButton.TextColor = Color.White;
             this.backButton.BackgroundColor = Color.LightGreen;
             this.backButton.BorderColor = Color.White;
@@ -39,7 +39,7 @@ namespace Tap
 
             this.leaveButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
             this.leaveButton.Size = new Vector2(300, 100);
-            this.leaveButton.Text = "Quitter";
+            this.leaveButton.Text = Resources.AppResources.ButtonLeaveText;
             this.leaveButton.TextColor = Color.White;
             this.leaveButton.BackgroundColor = Color.Gray;
             this.leaveButton.BorderColor = Color.White;
@@ -68,7 +68,7 @@ namespace Tap
         public override void LoadContent(object obj = null)
         {
             GameScore score = obj as GameScore;
-            this.scoreLabel.Caption = string.Format("Votre score : {0}", (score != null) ? score.Caption : "0 pts");
+            this.scoreLabel.Caption = string.Format("{0} {1}", Resources.AppResources.LabelScorePointsText, (score != null) ? score.Caption : "0 pts");
             this.scoreLabel.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.scoreLabel.Size.X / 2, game.Window.ClientBounds.Height / 3 - 20);
         }
 

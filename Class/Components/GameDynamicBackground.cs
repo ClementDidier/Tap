@@ -97,6 +97,7 @@ namespace Tap
             }
             else firstAnimationBackgroundState = true;
 
+            // Mise à jour des rectangles en fond
             for (int i = 0; i < RECTANGLES_COUNT; i++)
             {
                 GameRectangle rectangle = this.rectangles.ElementAt(i);

@@ -29,6 +29,7 @@ namespace Tap
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            ContentHandler.Add<Texture2D>(GameResources.Logo);
             ContentHandler.Add<Texture2D>(GameResources.ButtonTexture);
             ContentHandler.Add<SpriteFont>(GameResources.Font);
 

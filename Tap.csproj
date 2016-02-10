@@ -80,6 +80,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Class\Components\GameDynamicBackground.cs" />
+    <Compile Include="Class\Components\GameImage.cs" />
     <Compile Include="Class\Components\GameRectangle.cs" />
     <Compile Include="Class\Utilities\CaseState.cs" />
     <Compile Include="Class\Designers\Designer.cs" />
@@ -131,6 +132,9 @@
     <None Include="Content\Font.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Logo.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\TapButton.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -171,7 +175,6 @@
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.fr-FR.resx" />
-    <EmbeddedResource Include="Resources\AppResources.fr.resx" />
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>

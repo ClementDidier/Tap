@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Tap.Class.Components;
 
 namespace Tap
 {
@@ -13,6 +14,8 @@ namespace Tap
     {
         private GameDynamicBackground background;
         private Texture2D tapButtonTexture;
+        private Texture2D logo;
+        private GameImage logoImage;
         private GameButton playButton;
         private GameButton tutorialButton;
         private GameButton leaveButton;
@@ -31,17 +34,21 @@ namespace Tap
             this.background = new GameDynamicBackground(this);
 
             this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ButtonTexture);
+            this.logo = ContentHandler.Load<Texture2D>(GameResources.Logo);
+
+            this.logoImage = new GameImage(this, this.logo);
+            this.logoImage.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.logoImage.Texture.Width / 2, game.Window.ClientBounds.Height / 4 - this.logoImage.Texture.Height / 2);
 
             this.playButton = new GameButton(this, this.tapButtonTexture);
             this.playButton.Size = new Vector2(300, 100);
-            this.playButton.Text = "Jouer";
+            this.playButton.Text = Resources.AppResources.ButtonPlayText;
             this.playButton.TextColor = Color.White;
             this.playButton.BackgroundColor = Color.LawnGreen;
             this.playButton.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.playButton.Size.X / 2, game.Window.ClientBounds.Height / 2 - this.playButton.Size.Y / 2);
 
             this.tutorialButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
             this.tutorialButton.Size = new Vector2(300, 100);
-            this.tutorialButton.Text = "Tutoriel";
+            this.tutorialButton.Text = Resources.AppResources.ButtonTutorialText;
             this.tutorialButton.TextColor = Color.White;
             this.tutorialButton.BackgroundColor = Color.Gray;
             this.tutorialButton.BorderColor = Color.Black;
@@ -49,7 +56,7 @@ namespace Tap
 
             this.leaveButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
             this.leaveButton.Size = new Vector2(300, 100);
-            this.leaveButton.Text = "Quitter";
+            this.leaveButton.Text = Resources.AppResources.ButtonLeaveText;
             this.leaveButton.TextColor = Color.White;
             this.leaveButton.BackgroundColor = Color.LightGray;
             this.leaveButton.BorderColor = Color.Black;
@@ -85,6 +92,7 @@ namespace Tap
             }
 
             this.background.Update(gameTime);
+            this.logoImage.Update(gameTime);
             this.playButton.Update(gameTime);
             this.tutorialButton.Update(gameTime);
             this.leaveButton.Update(gameTime);
@@ -96,6 +104,7 @@ namespace Tap
             game.spriteBatch.Begin();
 
             this.background.Draw(gameTime);
+            this.logoImage.Draw(gameTime);
             this.playButton.Draw(gameTime);
             this.tutorialButton.Draw(gameTime);
             this.leaveButton.Draw(gameTime);
