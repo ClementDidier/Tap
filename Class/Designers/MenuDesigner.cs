@@ -14,6 +14,7 @@ namespace Tap
     {
         private GameDynamicBackground background;
         private Texture2D tapButtonTexture;
+        private Texture2D menuButtonTexture;
         private Texture2D logo;
         private GameImage logoImage;
         private GameButton playButton;
@@ -33,20 +34,21 @@ namespace Tap
 
             this.background = new GameDynamicBackground(this);
 
-            this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ButtonTexture);
-            this.logo = ContentHandler.Load<Texture2D>(GameResources.Logo);
+            this.menuButtonTexture = ContentHandler.Load<Texture2D>(GameResources.MenuButtonTextureName);
+            this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.TapButtonTextureName);
+            this.logo = ContentHandler.Load<Texture2D>(GameResources.LogoTextureName);
 
             this.logoImage = new GameImage(this, this.logo);
             this.logoImage.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.logoImage.Texture.Width / 2, game.Window.ClientBounds.Height / 4 - this.logoImage.Texture.Height / 2);
 
-            this.playButton = new GameButton(this, this.tapButtonTexture);
+            this.playButton = new GameButton(this, this.menuButtonTexture);
             this.playButton.Size = new Vector2(300, 100);
             this.playButton.Text = Resources.AppResources.ButtonPlayText;
             this.playButton.TextColor = Color.White;
-            this.playButton.BackgroundColor = Color.LawnGreen;
+            this.playButton.BackgroundColor = new Color(90, 235, 130);
             this.playButton.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.playButton.Size.X / 2, game.Window.ClientBounds.Height / 2 - this.playButton.Size.Y / 2);
 
-            this.tutorialButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
+            this.tutorialButton = new GameButton(this, this.menuButtonTexture);
             this.tutorialButton.Size = new Vector2(300, 100);
             this.tutorialButton.Text = Resources.AppResources.ButtonTutorialText;
             this.tutorialButton.TextColor = Color.White;
@@ -54,7 +56,7 @@ namespace Tap
             this.tutorialButton.BorderColor = Color.Black;
             this.tutorialButton.Position = new Vector2(this.playButton.Position.X, this.playButton.Position.Y + this.tutorialButton.Size.Y + 20);
 
-            this.leaveButton = new GameButton(this, ContentHandler.Load<Texture2D>(GameResources.ButtonTexture));
+            this.leaveButton = new GameButton(this, this.menuButtonTexture);
             this.leaveButton.Size = new Vector2(300, 100);
             this.leaveButton.Text = Resources.AppResources.ButtonLeaveText;
             this.leaveButton.TextColor = Color.White;

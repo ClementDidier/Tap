@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tap.Class.Components;
 
 namespace Tap
 {
@@ -13,7 +14,7 @@ namespace Tap
 
     public class GameButton : DrawableGameComponent
     {
-        protected static SpriteFont DEFAULT_FONT = ContentHandler.Load<SpriteFont>(GameResources.Font);
+        protected static SpriteFont DEFAULT_FONT = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
         protected static Color DEFAULT_COLOR = Color.Black;
         protected SpriteBatch batch;
         protected bool wasClicked;
@@ -42,7 +43,7 @@ namespace Tap
             this.Size = new Vector2(this.Texture.Width, this.Texture.Height) * this.Scale;
             this.TextColor = DEFAULT_COLOR;
             this.BorderColor = DEFAULT_COLOR;
-            this.BorderThickness = 1;
+            this.BorderThickness = 0;
 
             pixel = new Texture2D(Game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
@@ -83,8 +84,11 @@ namespace Tap
                 this.textLabel.Position = new Vector2(rectangle.Left + leftPadding, rectangle.Top + topPadding);
                 this.textLabel.Draw(gameTime);
             }
-            
-            this.DrawBorder(rectangle);
+
+            if (this.BorderThickness != 0)
+            {
+                this.DrawBorder(rectangle);
+            }
             base.Draw(gameTime);
         }
  

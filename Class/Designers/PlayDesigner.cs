@@ -17,8 +17,8 @@ namespace Tap
 
         public PlayDesigner(GameMain game) : base(game)
         {
-            this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ButtonTexture);
-            this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.Font);
+            this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.TapButtonTextureName);
+            this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
         }
 
         public override void LoadContent(object obj = null)

@@ -29,9 +29,10 @@ namespace Tap
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ContentHandler.Add<Texture2D>(GameResources.Logo);
-            ContentHandler.Add<Texture2D>(GameResources.ButtonTexture);
-            ContentHandler.Add<SpriteFont>(GameResources.Font);
+            ContentHandler.Add<Texture2D>(GameResources.LogoTextureName);
+            ContentHandler.Add<Texture2D>(GameResources.MenuButtonTextureName);
+            ContentHandler.Add<Texture2D>(GameResources.TapButtonTextureName);
+            ContentHandler.Add<SpriteFont>(GameResources.FontSpriteFontName);
 
             /* Load Designers */
             MenuDesigner    = new MenuDesigner(this);

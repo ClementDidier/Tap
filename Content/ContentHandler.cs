@@ -12,9 +12,10 @@ namespace Tap
 {
     static class GameResources
     {
-        public const string ButtonTexture = "TapButton";
-        public const string Logo = "Logo";
-        public const string Font = "Font";
+        public const string MenuButtonTextureName = "MenuButton";
+        public const string TapButtonTextureName = "TapButton";
+        public const string LogoTextureName = "Logo";
+        public const string FontSpriteFontName = "Font";
     }
 
     static class ContentHandler
