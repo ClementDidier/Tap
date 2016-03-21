@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace Tap
 {
-    class GameLabel : DrawableGameComponent
+    public class GameLabel : DrawableGameComponent
     {
-        public delegate void OnValueChangedHandler(Object sender);
+        public delegate void OnValueChangedHandler(object sender);
         public event OnValueChangedHandler OnValueChanged;
 
         private const byte MAX_BORDERS_THICKNESS = 5;
         private const string DEFAULT_LABEL_CAPTION ="";
+
+        private static Color DEFAULT_FONT_COLOR = Color.White;
+        private static Color DEFAULT_BORDER_COLOR = Color.White;
 
         private SpriteBatch batch;
         private SpriteFont font;
@@ -22,34 +25,36 @@ namespace Tap
 
         protected string caption;
 
-        public GameLabel(Designer designer, SpriteFont font, Color color) : base(designer.game)
+        public GameLabel(GameMain game, SpriteFont font) : base(game)
         {
-            this.batch = designer.game.spriteBatch;
-            this.caption = DEFAULT_LABEL_CAPTION;
+            this.batch = game.SpriteBatch;
             this.font = font;
+            this.caption = DEFAULT_LABEL_CAPTION;
+            this.Size = font.MeasureString(this.caption);
             this.Position = Vector2.Zero;
-            this.Color = color;
-            this.BorderColor = Color.White;
+            this.BorderColor = DEFAULT_BORDER_COLOR;
             this.borderThickness = 0;
+            this.Color = DEFAULT_FONT_COLOR;
+            this.Alpha = 1f;
         }
 
-        public override void Update(GameTime gameTime) 
-        { 
-
+        public GameLabel(GameMain game, SpriteFont font, Color fontColor) : this(game, font)
+        {
+            this.Color = fontColor;
         }
 
         public override void Draw(GameTime gameTime)
         {
             this.DrawBorders();
-            this.batch.DrawString(this.font, this.ToString(), this.Position, this.Color);
+            this.batch.DrawString(this.font, this.ToString(), this.Position, this.Color * this.Alpha);
         }
 
         private void DrawBorders()
         {
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X + this.BorderThickness, this.Position.Y), this.BorderColor);
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X - this.BorderThickness, this.Position.Y), this.BorderColor);
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y + this.BorderThickness), this.BorderColor);
-            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y - this.BorderThickness), this.BorderColor);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X + this.BorderThickness, this.Position.Y), this.BorderColor * this.Alpha);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X - this.BorderThickness, this.Position.Y), this.BorderColor * this.Alpha);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y + this.BorderThickness), this.BorderColor * this.Alpha);
+            this.batch.DrawString(this.font, this.ToString(), new Vector2(this.Position.X, this.Position.Y - this.BorderThickness), this.BorderColor * this.Alpha);
         }
 
         public override string ToString()
@@ -63,33 +68,24 @@ namespace Tap
                 OnValueChanged(sender);
         }
 
-        public String Caption 
+        public string Caption 
         {
             get { return this.caption; }
             set 
             {
-                this.caption = value; 
+                if(this.caption != value && value != null)
+                    this.Size = font.MeasureString(value);
+                this.caption = value;
+                
                 ChangedValueHandler(this); 
             } 
         }
 
-        public Vector2 Position 
-        { 
-            get; 
-            set; 
-        }
+        public Vector2 Position { get; set; }
 
-        public Color Color 
-        { 
-            get; 
-            set; 
-        }
+        public Color Color { get; set; }
 
-        public Color BorderColor
-        { 
-            get;
-            set; 
-        }
+        public Color BorderColor { get; set;  }
 
         public byte BorderThickness 
         { 
@@ -99,7 +95,14 @@ namespace Tap
 
         public Vector2 Size
         {
-            get { return font.MeasureString(this.caption); }
+            get;
+            private set;
+        }
+
+        public float Alpha
+        {
+            get;
+            set;
         }
     }
 }

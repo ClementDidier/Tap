@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tap.Class.Components;
+using Tap.Class.Utilities;
 
 namespace Tap
 {
     public delegate void OnClickHandler(object sender);
 
-    public class GameButton : DrawableGameComponent
+    public class GameButton : DrawableGameItem
     {
         protected static SpriteFont DEFAULT_FONT = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
         protected static Color DEFAULT_COLOR = Color.Black;
@@ -31,11 +32,11 @@ namespace Tap
             base.Initialize();
         }
 
-        public GameButton(Designer designer, Texture2D texture, SpriteFont font = null) : base(designer.game)
+        public GameButton(GameMain game, Texture2D texture, SpriteFont font = null) : base(game)
         {
-            this.textLabel = new GameLabel(designer, font ?? DEFAULT_FONT, Color.White);
+            this.textLabel = new GameLabel(game, font ?? DEFAULT_FONT, Color.White);
             this.backgroundColor = Color.White;
-            this.batch = designer.game.spriteBatch;
+            this.batch = game.SpriteBatch;
             this.Position = Vector2.Zero;
             this.wasClicked = false;
             this.Texture = texture;
@@ -100,19 +101,8 @@ namespace Tap
             batch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y + rectangleToDraw.Height - BorderThickness, rectangleToDraw.Width, BorderThickness), BorderColor);
         }
 
-        public Vector2 Position
-        {
-            get;
-            set;
-        }
 
         public Texture2D Texture
-        {
-            get;
-            set;
-        }
-
-        public Vector2 Size
         {
             get;
             set;

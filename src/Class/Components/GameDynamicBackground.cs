@@ -6,20 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading;
 
 namespace Tap
 {
     class GameDynamicBackground : DrawableGameComponent
     {
-        protected const int RECTANGLES_COUNT = 20;
+        protected const int RECTANGLES_COUNT = 30;
         protected const int MAX_SIZE = 200;
         protected const int BACKGROUND_R = 200;
         protected const int BACKGROUND_G = 200;
         protected const int BACKGROUND_B = 200;
 
+        private static Random rand = new Random();
+
+        private GameMain game;
         private SpriteBatch batch;
         private List<GameRectangle> rectangles;
-        private Designer designer;
         private Color foregroundColor;
         private Color backgroundColor;
 
@@ -32,32 +35,30 @@ namespace Tap
         private Color originBackgroundColor;
         bool firstAnimationBackgroundState = true;
 
-        private static Random rand = new Random();
+        
 
-        public GameDynamicBackground(Designer designer, GameTimer gameTimer = null) : base (designer.game)
+        public GameDynamicBackground(GameMain game, GameTimer gameTimer = null) : base (game)
         {
-            resultTimer = new Timer();
+            this.game = game;
             this.gameTimer = gameTimer;
-
+            this.resultTimer = new Timer();
             this.foregroundColor = new Color(120, 104, 148);
             this.backgroundColor = new Color(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B);
             this.originBackgroundColor = new Color(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B);
             this.animationBackgroundColor = new Color(0, 200, 105);
-            
-            this.designer = designer;
-            this.batch = designer.game.spriteBatch;
+            this.batch = game.SpriteBatch;
             this.rectangles = new List<GameRectangle>();
 
             // Création des rectangles
             for (int i = 0; i < RECTANGLES_COUNT; i++)
             {
                 int size = rand.Next(50, MAX_SIZE);
-                int x = rand.Next(1, designer.game.Window.ClientBounds.Width);
-                int y = rand.Next(1, designer.game.Window.ClientBounds.Height);
+                int x = rand.Next(1, game.Window.ClientBounds.Width);
+                int y = rand.Next(1, game.Window.ClientBounds.Height);
 
-                System.Threading.Thread.Sleep(10);
+                Thread.Sleep(10);
 
-                GameRectangle rectangle = new GameRectangle(designer, size, new Vector2(x, y));
+                GameRectangle rectangle = new GameRectangle(game, size, new Vector2(x, y));
                 this.rectangles.Add(rectangle);
             }
         }
@@ -98,7 +99,7 @@ namespace Tap
             else firstAnimationBackgroundState = true;
 
             // Mise à jour des rectangles en fond
-            for (int i = 0; i < RECTANGLES_COUNT; i++)
+            for (int i = 0; i < this.rectangles.Count; i++)
             {
                 GameRectangle rectangle = this.rectangles.ElementAt(i);
                 rectangle.Color = this.foregroundColor;
@@ -116,9 +117,9 @@ namespace Tap
                 }
                 else
                 {
-                    System.Threading.Thread.Sleep(rand.Next(10, 30));
-                    int x = rand.Next(1, designer.game.Window.ClientBounds.Width);
-                    int y = rand.Next(1, designer.game.Window.ClientBounds.Height);
+                    Thread.Sleep(rand.Next(10, 30));
+                    int x = rand.Next(1, this.game.Window.ClientBounds.Width);
+                    int y = rand.Next(1, this.game.Window.ClientBounds.Height);
                     rectangle.Position = new Vector2(x, y);
                     rectangle.RandomizeSize(70, MAX_SIZE);
                     rectangle.Alpha = 0.5f;
@@ -129,12 +130,13 @@ namespace Tap
 
         public override void Draw(GameTime gameTime)
         {
-            for (int i = 0; i < RECTANGLES_COUNT; i++)
+            base.Draw(gameTime);
+
+            for (int i = 0; i < this.rectangles.Count; i++)
             {
                 GameRectangle rectangle = this.rectangles.ElementAt(i);
                 rectangle.Draw(gameTime);
             }
-            base.Draw(gameTime);
         }
 
         public void RaiseBadResult()

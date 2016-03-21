@@ -8,16 +8,23 @@ using System.Threading.Tasks;
 
 namespace Tap
 {
-    public abstract class Designer : Navigable
+    public abstract class Designer : INavigable
     {
-        public GameMain game;
+        public GameMain Game { get; private set; }
+
+        public bool InNavigationState { get; set; }
 
         public Designer(GameMain game)
         {
-            this.game = game;
+            this.Game = game;
         }
 
+        public abstract void LoadContent(object obj = null);
+
+        public abstract void UnloadContent();
+
         public abstract void Update(GameTime gameTime);
-        public abstract void Draw(GameTime gameTime);
+
+        public abstract void Draw(GameTime gameTime);       
     }
 }

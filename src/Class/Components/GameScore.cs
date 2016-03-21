@@ -10,7 +10,7 @@ namespace Tap
         private const byte MAX_BORDERS_WEIGHT = 5;
 
 
-        public GameScore(Designer game, SpriteFont font, Color color) : base(game, font, color)
+        public GameScore(GameMain game, SpriteFont font, Color color) : base(game, font, color)
         {
             this.Score = DEFAULT_SCORE_VALUE;
             this.caption = string.Format("{0} pts", this.Score);

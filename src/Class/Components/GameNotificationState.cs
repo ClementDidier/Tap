@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tap
+namespace Tap.Class.Components
 {
-    class GameEffects
+    public enum GameNotificationState
     {
-        public GameEffects()
-        {
-
-        }
+        Begin,
+        Shown,
+        End,
+        Nothing
     }
 }

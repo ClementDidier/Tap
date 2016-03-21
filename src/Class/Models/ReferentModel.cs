@@ -10,7 +10,7 @@ namespace Tap
 {
     sealed class ReferentModel : Model
     {
-        public ReferentModel(Designer game, Texture2D caseTexture, float scale) : base(game, caseTexture)
+        public ReferentModel(GameMain game, Texture2D caseTexture, float scale) : base(game, caseTexture)
         {
             Initialize();
             this.Scale = scale;
@@ -26,7 +26,7 @@ namespace Tap
             
             for (int xCase = 0; xCase < this.cases.GetLength(0); xCase++)
                 for (int yCase = 0; yCase < this.cases.GetLength(1); yCase++)
-                    this.cases[xCase, yCase] = new GameCase(designer, caseTexture);
+                    this.cases[xCase, yCase] = new GameCase(MainGame, caseTexture);
         }
 
         public void GenerateNewStage()

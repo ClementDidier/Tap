@@ -11,45 +11,58 @@ namespace Tap
         private GameScore score;
         private GameTimer timer;
         private GameDynamicBackground background;
-
+        private GameButton quitButton;
         private Texture2D tapButtonTexture;
+        private Texture2D quitButtonTexture;
         private SpriteFont gameFont;
 
         public PlayDesigner(GameMain game) : base(game)
         {
             this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.TapButtonTextureName);
+            this.quitButtonTexture = ContentHandler.Load<Texture2D>(GameResources.RedCrossButton);
             this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
         }
 
         public override void LoadContent(object obj = null)
         {
-            playerModel = new PlayerModel(this, tapButtonTexture);
-            playerModel.OnStateChanged += PlayerModel_OnStateChanged;
-            playerModel.Scale = game.Window.ClientBounds.Width / playerModel.Size.X - 0.5f;
+            this.playerModel = new PlayerModel(this.Game, tapButtonTexture);
+            this.playerModel.OnStateChanged += PlayerModel_OnStateChanged;
+            this.playerModel.Scale = Game.Window.ClientBounds.Width / playerModel.Size.X - 0.5f;
 
-            playerModel.Position = new Vector2(game.Window.ClientBounds.Width / 2 - playerModel.Size.X / 2,
-                game.Window.ClientBounds.Height - 1.3f * playerModel.Size.Y);
+            this.playerModel.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - playerModel.Size.X / 2,
+                Game.Window.ClientBounds.Height - 1.3f * playerModel.Size.Y);
 
-            referentModel = new ReferentModel(this, tapButtonTexture, 0.4f);
-            referentModel.Position = new Vector2(playerModel.Position.X + playerModel.Size.X - referentModel.Size.X,
-                game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2 + 10);
+            this.referentModel = new ReferentModel(this.Game, tapButtonTexture, 0.4f);
+            this.referentModel.Position = new Vector2(playerModel.Position.X + playerModel.Size.X - referentModel.Size.X,
+                Game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2 + 10);
 
-            score = new GameScore(this, gameFont, Color.LightGreen);
-            score.Position = new Vector2(playerModel.Position.X,
-                game.Window.ClientBounds.Width / 2 - referentModel.Size.Y);
+            this.quitButton = new GameButton(this.Game, this.quitButtonTexture);
+            this.quitButton.Scale = 1.3f;
+            this.quitButton.Position = new Vector2(this.playerModel.Position.X + this.playerModel.Size.X - this.quitButton.Size.X,
+                1.5f * this.quitButton.Size.Y);
+            this.quitButton.OnClick += QuitButton_OnClick;
 
-            timer = new GameTimer(this, gameFont, Color.WhiteSmoke);
-            timer.Position = new Vector2(playerModel.Position.X,
-                game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2);
-            timer.OnStop += timer_OnStop;
+            this.score = new GameScore(this.Game, gameFont, Color.LightGreen);
+            this.score.Position = new Vector2(playerModel.Position.X,
+                Game.Window.ClientBounds.Width / 2 - referentModel.Size.Y);
 
-            background = new GameDynamicBackground(this, timer);
+            this.timer = new GameTimer(this.Game, gameFont, Color.WhiteSmoke);
+            this.timer.Position = new Vector2(playerModel.Position.X,
+                Game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2);
+            this.timer.OnStop += timer_OnStop;
+
+            this.background = new GameDynamicBackground(this.Game, timer);
+        }
+
+        private void QuitButton_OnClick(object sender)
+        {
+            NavigationHelper.NavigateTo(GameState.Menu, TransitionType.None);
         }
 
         private void timer_OnStop(object sender)
         {
             Thread.Sleep(2000);
-            NavigationHelper.NavigateTo(GameState.EndMenu, score);
+            NavigationHelper.NavigateTo(GameState.EndMenu, TransitionType.None, score);
         }
 
         public override void UnloadContent()
@@ -59,28 +72,27 @@ namespace Tap
 
         public override void Update(GameTime gameTime)
         {
-            playerModel.Enabled = !timer.IsEnd;
-            referentModel.Enabled = !timer.IsEnd;
+            playerModel.Enabled = !timer.IsEnd || !timer.IsSuspend;
+            referentModel.Enabled = !timer.IsEnd || !timer.IsSuspend;
 
             background.Update(gameTime);
             playerModel.Update(gameTime);
             referentModel.Update(gameTime);
+            quitButton.Update(gameTime);
             score.Update(gameTime);
             timer.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            game.GraphicsDevice.Clear(background.BackgroundColor);
-            game.spriteBatch.Begin();
+            Game.GraphicsDevice.Clear(background.BackgroundColor);
 
             background.Draw(gameTime);
             playerModel.Draw(gameTime);
             referentModel.Draw(gameTime);
+            quitButton.Draw(gameTime);
             score.Draw(gameTime);
             timer.Draw(gameTime);
-
-            game.spriteBatch.End();
         }
 
         private void PlayerModel_OnStateChanged(object sender)

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 
 namespace Tap
 {
@@ -15,6 +7,8 @@ namespace Tap
         public const string MenuButtonTextureName = "MenuButton";
         public const string TapButtonTextureName = "TapButton";
         public const string LogoTextureName = "Logo";
+        public const string CustomerScoreBackground = "CustomerScoreBackground";
+        public const string RedCrossButton = "RedCrossButton";
         public const string FontSpriteFontName = "Font";
     }
 

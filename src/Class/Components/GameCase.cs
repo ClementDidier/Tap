@@ -21,7 +21,7 @@ namespace Tap
             base.Initialize();
         }
 
-        public GameCase(Designer game, Texture2D texture) : base(game, texture)
+        public GameCase(GameMain game, Texture2D texture) : base(game, texture)
         {
             this.State = CaseState.Unselected;
         }

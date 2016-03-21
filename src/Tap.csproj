@@ -79,8 +79,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Class\Components\GameNotificationState.cs" />
+    <Compile Include="Class\Components\GameSlideNotification.cs" />
+    <Compile Include="Class\Components\GameScoreItem.cs" />
+    <Compile Include="Class\Utilities\ConnectionException.cs" />
+    <Compile Include="Class\Utilities\CustomerScore.cs" />
+    <Compile Include="Class\Utilities\CustomerScoreDataHelper.cs" />
     <Compile Include="Class\Components\GameDynamicBackground.cs" />
     <Compile Include="Class\Components\GameImage.cs" />
+    <Compile Include="Class\Components\GameNotification.cs" />
     <Compile Include="Class\Components\GameRectangle.cs" />
     <Compile Include="Class\Utilities\CaseState.cs" />
     <Compile Include="Class\Designers\Designer.cs" />
@@ -89,7 +96,8 @@
     <Compile Include="Class\Designers\PlayDesigner.cs" />
     <Compile Include="Class\Components\GameButton.cs" />
     <Compile Include="Class\Components\GameCase.cs" />
-    <Compile Include="Class\Components\GameEffects.cs" />
+    <Compile Include="Class\Components\GameTransition.cs" />
+    <Compile Include="Class\Utilities\DrawableGameItem.cs" />
     <Compile Include="Class\Utilities\GameFrame.cs" />
     <Compile Include="Class\Components\GameLabel.cs" />
     <Compile Include="Class\Components\GamePanel.cs" />
@@ -99,9 +107,11 @@
     <Compile Include="Class\Models\ModelState.cs" />
     <Compile Include="Class\Models\PlayerModel.cs" />
     <Compile Include="Class\Components\GameScore.cs" />
-    <Compile Include="Class\Utilities\Navigable.cs" />
+    <Compile Include="Class\Utilities\IDrawableItem.cs" />
+    <Compile Include="Class\Utilities\INavigable.cs" />
     <Compile Include="Class\Utilities\NavigatorHelper.cs" />
     <Compile Include="Class\Utilities\Timer.cs" />
+    <Compile Include="Class\Utilities\TransitionType.cs" />
     <Compile Include="Content\ContentHandler.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="GamePage.xaml.cs">
@@ -129,6 +139,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Content\CustomerScoreBackground.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Font.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -136,6 +149,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\MenuButton.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\RedCrossButton.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\TapButton.xnb">
@@ -190,6 +206,10 @@
     </Reference>
     <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'x86' ">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsPhone\x86\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.8.0.3\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

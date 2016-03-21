@@ -12,11 +12,11 @@ namespace Tap.Class.Components
     {
         private SpriteBatch batch;
 
-        public GameImage(Designer designer, Texture2D texture) : base(designer.game)
+        public GameImage(GameMain game, Texture2D texture) : base(game)
         {
             this.Texture = texture;
             this.Position = Vector2.Zero;
-            this.batch = designer.game.spriteBatch;
+            this.batch = game.SpriteBatch;
         }
 
         public override void Update(GameTime gameTime)

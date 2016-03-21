@@ -16,12 +16,16 @@ namespace Tap
         private Texture2D tapButtonTexture;
         private Texture2D menuButtonTexture;
         private Texture2D logo;
+        private SpriteFont font;
         private GameImage logoImage;
         private GameButton playButton;
         private GameButton tutorialButton;
         private GameButton leaveButton;
         private Timer timer;
-        
+
+#if DEBUG
+        GameNotification notif;
+#endif
 
         public MenuDesigner(GameMain game) : base(game)
         {
@@ -32,31 +36,32 @@ namespace Tap
         {
             this.timer = new Timer();
 
-            this.background = new GameDynamicBackground(this);
+            this.background = new GameDynamicBackground(this.Game);
 
             this.menuButtonTexture = ContentHandler.Load<Texture2D>(GameResources.MenuButtonTextureName);
             this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.TapButtonTextureName);
             this.logo = ContentHandler.Load<Texture2D>(GameResources.LogoTextureName);
+            this.font = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
 
-            this.logoImage = new GameImage(this, this.logo);
-            this.logoImage.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.logoImage.Texture.Width / 2, game.Window.ClientBounds.Height / 4 - this.logoImage.Texture.Height / 2);
+            this.logoImage = new GameImage(this.Game, this.logo);
+            this.logoImage.Position = new Vector2(this.Game.Window.ClientBounds.Width / 2 - this.logoImage.Texture.Width / 2, this.Game.Window.ClientBounds.Height / 4 - this.logoImage.Texture.Height / 2);
 
-            this.playButton = new GameButton(this, this.menuButtonTexture);
+            this.playButton = new GameButton(this.Game, this.menuButtonTexture);
             this.playButton.Size = new Vector2(300, 100);
             this.playButton.Text = Resources.AppResources.ButtonPlayText;
             this.playButton.TextColor = Color.White;
             this.playButton.BackgroundColor = new Color(90, 235, 130);
-            this.playButton.Position = new Vector2(game.Window.ClientBounds.Width / 2 - this.playButton.Size.X / 2, game.Window.ClientBounds.Height / 2 - this.playButton.Size.Y / 2);
+            this.playButton.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - this.playButton.Size.X / 2, Game.Window.ClientBounds.Height / 2 - this.playButton.Size.Y / 2);
 
-            this.tutorialButton = new GameButton(this, this.menuButtonTexture);
+            this.tutorialButton = new GameButton(this.Game, this.menuButtonTexture);
             this.tutorialButton.Size = new Vector2(300, 100);
             this.tutorialButton.Text = Resources.AppResources.ButtonTutorialText;
-            this.tutorialButton.TextColor = Color.White;
+            this.tutorialButton.TextColor = new Color(150, 150, 150);
             this.tutorialButton.BackgroundColor = Color.Gray;
             this.tutorialButton.BorderColor = Color.Black;
             this.tutorialButton.Position = new Vector2(this.playButton.Position.X, this.playButton.Position.Y + this.tutorialButton.Size.Y + 20);
 
-            this.leaveButton = new GameButton(this, this.menuButtonTexture);
+            this.leaveButton = new GameButton(this.Game, this.menuButtonTexture);
             this.leaveButton.Size = new Vector2(300, 100);
             this.leaveButton.Text = Resources.AppResources.ButtonLeaveText;
             this.leaveButton.TextColor = Color.White;
@@ -65,17 +70,41 @@ namespace Tap
             this.leaveButton.Position = new Vector2(this.tutorialButton.Position.X, this.tutorialButton.Position.Y + this.leaveButton.Size.Y + 20);
 
             this.playButton.OnClick += playButton_OnClick;
+            this.tutorialButton.OnClick += TutorialButton_OnClick;
             this.leaveButton.OnClick += LeaveButton_OnClick;
+
+#if DEBUG
+            notif = new GameSlideNotification(this.Game, this.font);
+            notif.Label.BorderThickness = 1;
+            notif.Label.BorderColor = Color.Black;
+            notif.Label.Color = Color.White;
+#endif
+        }
+
+        private void TutorialButton_OnClick(object sender)
+        {
+#if DEBUG
+            // Exemple GameCustomersScores communication
+            /*GameCustomersScores gcs = new GameCustomersScores();
+            List<GameCustomerScore> scores = await gcs.GetRankingAsync();
+            if (await gcs.AddRankingAsync(new GameCustomerScore("application2", 2000)))
+            {
+                scores = await gcs.GetRankingAsync();
+                scores.ForEach(x => Debug.WriteLine(x.ToString()));
+            }*/
+
+            notif.Show("Tutoriel indisponible", 500, 3000, 500);
+#endif
         }
 
         private void playButton_OnClick(object sender)
         {
-            NavigationHelper.NavigateTo(GameState.Play);
+            NavigationHelper.NavigateTo(GameState.Play, TransitionType.None);
         }
 
         private void LeaveButton_OnClick(object sender)
         {
-            game.Exit();
+            Game.Exit();
         }
 
         public override void UnloadContent()
@@ -98,12 +127,15 @@ namespace Tap
             this.playButton.Update(gameTime);
             this.tutorialButton.Update(gameTime);
             this.leaveButton.Update(gameTime);
+
+#if DEBUG
+            notif.Update(gameTime);
+#endif
         }
 
         public override void Draw(GameTime gameTime)
         {
-            game.GraphicsDevice.Clear(background.BackgroundColor);
-            game.spriteBatch.Begin();
+            Game.GraphicsDevice.Clear(background.BackgroundColor);
 
             this.background.Draw(gameTime);
             this.logoImage.Draw(gameTime);
@@ -111,7 +143,9 @@ namespace Tap
             this.tutorialButton.Draw(gameTime);
             this.leaveButton.Draw(gameTime);
 
-            game.spriteBatch.End();
+#if DEBUG
+            notif.Draw(gameTime);
+#endif
         }
     }
 }

@@ -10,14 +10,11 @@ namespace Tap
     /// </summary>
     public class GameMain : Game
     {
-        public GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
-
-        public new static ContentManager Content;
+        public static new ContentManager Content;
 
         public GameMain() : base()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content = new ContentManager(this.Services, "Content");
         }
 
@@ -28,19 +25,21 @@ namespace Tap
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.SpriteBatch = new SpriteBatch(GraphicsDevice);
             ContentHandler.Add<Texture2D>(GameResources.LogoTextureName);
             ContentHandler.Add<Texture2D>(GameResources.MenuButtonTextureName);
             ContentHandler.Add<Texture2D>(GameResources.TapButtonTextureName);
+            ContentHandler.Add<Texture2D>(GameResources.CustomerScoreBackground);
+            ContentHandler.Add<Texture2D>(GameResources.RedCrossButton);
             ContentHandler.Add<SpriteFont>(GameResources.FontSpriteFontName);
 
-            /* Load Designers */
+
+            // Load Designers
             MenuDesigner    = new MenuDesigner(this);
             PlayDesigner    = new PlayDesigner(this);
             EndMenuDesigner = new EndMenuDesigner(this);
-            /******************/
 
-            NavigationHelper.NavigateTo(GameState.Menu);
+            NavigationHelper.NavigateTo(GameState.Menu, TransitionType.None);
 
             base.LoadContent();
         }
@@ -59,14 +58,24 @@ namespace Tap
 
         protected override void Draw(GameTime gameTime)
         {
+            this.SpriteBatch.Begin();
+
             Designer.Draw(gameTime);
             base.Draw(gameTime);
+
+            this.SpriteBatch.End();
         }
+
+        public GraphicsDeviceManager Graphics { get; private set; }
+
+        public SpriteBatch SpriteBatch { get; private set; }
 
         public static Designer Designer { get; set; }
 
         public static MenuDesigner MenuDesigner { get; private set; }
+
         public static PlayDesigner PlayDesigner { get; private set; }
+
         public static EndMenuDesigner EndMenuDesigner { get; private set; }
     }
 }

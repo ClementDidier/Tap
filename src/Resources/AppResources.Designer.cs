@@ -115,6 +115,15 @@ namespace Tap.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aucune connexion internet disponible.
+        /// </summary>
+        public static string NetworkExceptionText {
+            get {
+                return ResourceManager.GetString("NetworkExceptionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LeftToRight.
         /// </summary>
         public static string ResourceFlowDirection {

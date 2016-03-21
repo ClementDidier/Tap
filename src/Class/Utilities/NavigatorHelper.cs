@@ -4,13 +4,15 @@
     {
         Menu,
         Play,
-        EndMenu
+        EndMenu,
+        Loading
     }
 
     sealed class NavigationHelper
     {
-        public static void NavigateTo(GameState state, object obj = null)
+        public static void NavigateTo(GameState state, TransitionType type,  object obj = null)
         {
+
             switch(state)
             {
                 case GameState.Menu:
