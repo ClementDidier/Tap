@@ -11,15 +11,15 @@ namespace Tap
         private GameScore score;
         private GameTimer timer;
         private GameDynamicBackground background;
-        private GameButton quitButton;
+        private GameButton homeButton;
         private Texture2D tapButtonTexture;
-        private Texture2D quitButtonTexture;
+        private Texture2D homeButtonTexture;
         private SpriteFont gameFont;
 
         public PlayDesigner(GameMain game) : base(game)
         {
             this.tapButtonTexture = ContentHandler.Load<Texture2D>(GameResources.TapButtonTextureName);
-            this.quitButtonTexture = ContentHandler.Load<Texture2D>(GameResources.RedCrossButton);
+            this.homeButtonTexture = ContentHandler.Load<Texture2D>(GameResources.HomeGrayButton);
             this.gameFont = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
         }
 
@@ -36,11 +36,11 @@ namespace Tap
             this.referentModel.Position = new Vector2(playerModel.Position.X + playerModel.Size.X - referentModel.Size.X,
                 Game.Window.ClientBounds.Width / 2 - referentModel.Size.Y / 2 + 10);
 
-            this.quitButton = new GameButton(this.Game, this.quitButtonTexture);
-            this.quitButton.Scale = 1.3f;
-            this.quitButton.Position = new Vector2(this.playerModel.Position.X + this.playerModel.Size.X - this.quitButton.Size.X,
-                1.5f * this.quitButton.Size.Y);
-            this.quitButton.OnClick += QuitButton_OnClick;
+            this.homeButton = new GameButton(this.Game, this.homeButtonTexture);
+            this.homeButton.Scale = 1.3f;
+            this.homeButton.Position = new Vector2(this.playerModel.Position.X + this.playerModel.Size.X - this.homeButton.Size.X,
+                1.5f * this.homeButton.Size.Y);
+            this.homeButton.OnClick += HomeButton_OnClick;
 
             this.score = new GameScore(this.Game, gameFont, Color.LightGreen);
             this.score.Position = new Vector2(playerModel.Position.X,
@@ -54,14 +54,13 @@ namespace Tap
             this.background = new GameDynamicBackground(this.Game, timer);
         }
 
-        private void QuitButton_OnClick(object sender)
+        private void HomeButton_OnClick(object sender)
         {
             NavigationHelper.NavigateTo(GameState.Menu, TransitionType.None);
         }
 
         private void timer_OnStop(object sender)
         {
-            Thread.Sleep(2000);
             NavigationHelper.NavigateTo(GameState.EndMenu, TransitionType.None, score);
         }
 
@@ -78,7 +77,7 @@ namespace Tap
             background.Update(gameTime);
             playerModel.Update(gameTime);
             referentModel.Update(gameTime);
-            quitButton.Update(gameTime);
+            homeButton.Update(gameTime);
             score.Update(gameTime);
             timer.Update(gameTime);
         }
@@ -90,7 +89,7 @@ namespace Tap
             background.Draw(gameTime);
             playerModel.Draw(gameTime);
             referentModel.Draw(gameTime);
-            quitButton.Draw(gameTime);
+            homeButton.Draw(gameTime);
             score.Draw(gameTime);
             timer.Draw(gameTime);
         }

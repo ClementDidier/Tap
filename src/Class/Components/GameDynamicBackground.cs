@@ -12,7 +12,7 @@ namespace Tap
 {
     class GameDynamicBackground : DrawableGameComponent
     {
-        protected const int RECTANGLES_COUNT = 30;
+        protected const int RECTANGLES_COUNT = 20;
         protected const int MAX_SIZE = 200;
         protected const int BACKGROUND_R = 200;
         protected const int BACKGROUND_G = 200;

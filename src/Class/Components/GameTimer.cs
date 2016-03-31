@@ -14,7 +14,7 @@ namespace Tap
     class GameTimer : GameLabel
     {
 #if DEBUG
-        private const decimal START_TIMER_VALUE = 100M;
+        private const decimal START_TIMER_VALUE = 5M;
 #else
         private const decimal START_TIMER_VALUE = 30M;
 #endif

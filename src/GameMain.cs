@@ -31,6 +31,9 @@ namespace Tap
             ContentHandler.Add<Texture2D>(GameResources.TapButtonTextureName);
             ContentHandler.Add<Texture2D>(GameResources.CustomerScoreBackground);
             ContentHandler.Add<Texture2D>(GameResources.RedCrossButton);
+            ContentHandler.Add<Texture2D>(GameResources.HomeGrayButton);
+            ContentHandler.Add<Texture2D>(GameResources.ReplayOrangeButton);
+            ContentHandler.Add<Texture2D>(GameResources.ValidGreenButton);
             ContentHandler.Add<SpriteFont>(GameResources.FontSpriteFontName);
 
 

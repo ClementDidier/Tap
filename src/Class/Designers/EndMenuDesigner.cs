@@ -1,23 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Tap.Class;
+using Tap.Class.Components;
+using Tap.Class.Utilities;
 
 namespace Tap
 {
     public sealed class EndMenuDesigner : Designer
     {
-        private Texture2D menuButtonTexture;
+        private const byte MAX_SCORE_SHOWN_COUNT = 5;
+
+        private Texture2D validButtonTexture;
+        private Texture2D replayButtonTexture;
+        private Texture2D homeButtonTexture;
+        private Texture2D scoreItemTexture;
         private SpriteFont fontTexture;
 
-        private GameLabel scoreLabel;
+        private GameScoreItem scoreItem;
         private GameButton replayButton;
-        private GameButton backButton;
-        private GameButton leaveButton;
+        private GameButton homeButton;
+        private GameButton validButton;
+        private GamePanel scorePanel;
         private Timer timer;
+        private CustomerScoreDataHelper dataHelper;
+        private List<CustomerScore> scoresList;
 
         public EndMenuDesigner(GameMain game) : base(game)
         {
+            this.Initialize();
+        }
+
+        public async void Initialize()
+        {
+            this.dataHelper = new CustomerScoreDataHelper(MAX_SCORE_SHOWN_COUNT);
+            this.scoresList = await this.dataHelper.GetRankingAsync();
         }
 
         private void replayButton_OnClick(object sender)
@@ -25,58 +45,64 @@ namespace Tap
             NavigationHelper.NavigateTo(GameState.Play, TransitionType.None);
         }
 
-        private void BackButton_OnClick(object sender)
+        private void HomeButton_OnClick(object sender)
         {
             NavigationHelper.NavigateTo(GameState.Menu, TransitionType.None);
         }
 
-        private void LeaveButton_OnClick(object sender)
+        private async void ValidButton_OnClick(object sender)
         {
-            Game.Exit();
+            string entry = await KeyboardInput.Show("Entrez votre pseudonyme !", "En validant votre pseudonyme, vous acceptez l'envoi de votre score dans le classement en ligne.");
+            await MessageBox.Show(string.IsNullOrEmpty(entry).ToString(), "Description", new List<string> {"Valider","Annuler"});
         }
 
         public override void LoadContent(object obj = null)
         {
-            this.menuButtonTexture = ContentHandler.Load<Texture2D>(GameResources.MenuButtonTextureName);
+            this.validButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ValidGreenButton);
+            this.replayButtonTexture = ContentHandler.Load<Texture2D>(GameResources.ReplayOrangeButton);
+            this.homeButtonTexture = ContentHandler.Load<Texture2D>(GameResources.HomeGrayButton);
+            this.scoreItemTexture = ContentHandler.Load<Texture2D>(GameResources.CustomerScoreBackground);
             this.fontTexture = ContentHandler.Load<SpriteFont>(GameResources.FontSpriteFontName);
+
+            GameScore score = obj as GameScore;
+            CustomerScore currentScore = new CustomerScore("User", (score != null) ? (int)score.Score : -1);
 
             this.timer = new Timer();
 
-            this.scoreLabel = new GameLabel(this.Game, this.fontTexture, Color.LightGreen);
-            this.scoreLabel.BorderThickness = 1;
-            this.scoreLabel.BorderColor = Color.White;
+            this.scoreItem = new GameScoreItem(this.Game, this.scoreItemTexture, this.fontTexture, currentScore);
+            this.scoreItem.Color = Color.Orange;
+            this.scoreItem.Size = new Vector2(Game.Window.ClientBounds.Width * 3 / 4, GameScoreItem.HEIGHT_DEFAULT);
+            this.scoreItem.Label1.Color = Color.White;
+            this.scoreItem.Label1.BorderColor = Color.Black;
+            this.scoreItem.Label1.BorderThickness = 1;
+            this.scoreItem.Label2.BorderColor = Color.White;
+            this.scoreItem.Label2.BorderThickness = 1;
+            this.scoreItem.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - this.scoreItem.Size.X / 2, Game.Window.ClientBounds.Height / 6 - this.scoreItem.Size.Y / 2);
 
-            this.replayButton = new GameButton(this.Game, this.menuButtonTexture);
-            this.replayButton.Size = new Vector2(300, 100);
-            this.replayButton.Text = Resources.AppResources.ButtonReplayText;
-            this.replayButton.TextColor = Color.White;
-            this.replayButton.BackgroundColor = Color.LawnGreen;
-            this.replayButton.BorderColor = Color.White;
-            this.replayButton.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - this.replayButton.Size.X / 2, Game.Window.ClientBounds.Height / 2 - this.replayButton.Size.Y / 2);
 
-            this.backButton = new GameButton(this.Game, this.menuButtonTexture);
-            this.backButton.Size = new Vector2(300, 100);
-            this.backButton.Text = Resources.AppResources.ButtonMenuText;
-            this.backButton.TextColor = Color.White;
-            this.backButton.BackgroundColor = Color.LightGreen;
-            this.backButton.BorderColor = Color.White;
-            this.backButton.Position = new Vector2(this.replayButton.Position.X, this.replayButton.Position.Y + this.backButton.Size.Y + 20);
+            this.scorePanel = new GamePanel(this.Game);
+            this.scorePanel.Size = new Vector2(Game.Window.ClientBounds.Width * 3 / 4, 5 * GameScoreItem.HEIGHT_DEFAULT);
+            this.scorePanel.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - this.scorePanel.Size.X / 2, Game.Window.ClientBounds.Height * 2 / 5 - this.scorePanel.Size.Y / 2);
 
-            this.leaveButton = new GameButton(this.Game, this.menuButtonTexture);
-            this.leaveButton.Size = new Vector2(300, 100);
-            this.leaveButton.Text = Resources.AppResources.ButtonLeaveText;
-            this.leaveButton.TextColor = Color.White;
-            this.leaveButton.BackgroundColor = Color.Gray;
-            this.leaveButton.BorderColor = Color.White;
-            this.leaveButton.Position = new Vector2(this.backButton.Position.X, this.backButton.Position.Y + this.leaveButton.Size.Y + 20);
+            this.scoresList.ForEach(item => this.scorePanel.Add(new GameScoreItem(this.Game, this.scoreItemTexture, this.fontTexture, item)));
+
+            this.replayButton = new GameButton(this.Game, this.replayButtonTexture);
+            this.replayButton.Scale = 1.5f;
+            this.replayButton.Position = new Vector2(Game.Window.ClientBounds.Width / 4 - this.replayButton.Size.X / 2, Game.Window.ClientBounds.Height * 4 / 5 - this.replayButton.Size.Y / 2);
+
+            this.homeButton = new GameButton(this.Game, this.homeButtonTexture);
+            this.homeButton.Scale = 1.5f;
+            this.homeButton.Position = new Vector2(Game.Window.ClientBounds.Width / 2 - this.homeButton.Size.X / 2, Game.Window.ClientBounds.Height * 4 / 5 - this.homeButton.Size.Y / 2);
+
+            this.validButton = new GameButton(this.Game, this.validButtonTexture);
+            this.validButton.Scale = 1.5f;
+            this.validButton.Position = new Vector2(Game.Window.ClientBounds.Width * 3 / 4 - this.validButton.Size.X / 2, Game.Window.ClientBounds.Height * 4 / 5 - this.validButton.Size.Y / 2);
 
             this.replayButton.OnClick += replayButton_OnClick;
-            this.backButton.OnClick += BackButton_OnClick;
-            this.leaveButton.OnClick += LeaveButton_OnClick;
+            this.homeButton.OnClick += HomeButton_OnClick;
+            this.validButton.OnClick += ValidButton_OnClick;
 
-            GameScore score = obj as GameScore;
-            this.scoreLabel.Caption = string.Format("{0} {1}", Resources.AppResources.LabelScorePointsText, (score != null) ? score.Caption : "0 pts");
-            this.scoreLabel.Position = new Vector2(this.Game.Window.ClientBounds.Width / 2 - this.scoreLabel.Size.X / 2, this.Game.Window.ClientBounds.Height / 3 - 20);
+            Thread.Sleep(1000);
         }
 
         public override void UnloadContent()
@@ -90,24 +116,26 @@ namespace Tap
             {
                 this.InNavigationState = !this.timer.WaitTicks(50);
                 this.replayButton.Enabled = !this.InNavigationState;
-                this.backButton.Enabled = !this.InNavigationState;
-                this.leaveButton.Enabled = !this.InNavigationState;
+                this.homeButton.Enabled = !this.InNavigationState;
+                this.validButton.Enabled = !this.InNavigationState;
             }
 
-            this.scoreLabel.Update(gameTime);
+            this.scoreItem.Update(gameTime);
             this.replayButton.Update(gameTime);
-            this.backButton.Update(gameTime);
-            this.leaveButton.Update(gameTime);
+            this.homeButton.Update(gameTime);
+            this.validButton.Update(gameTime);
+            this.scorePanel.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            Game.GraphicsDevice.Clear(Color.Black);
+            Game.GraphicsDevice.Clear(Color.LightGray);
 
-            this.scoreLabel.Draw(gameTime);
+            this.scoreItem.Draw(gameTime);
             this.replayButton.Draw(gameTime);
-            this.backButton.Draw(gameTime);
-            this.leaveButton.Draw(gameTime);
+            this.homeButton.Draw(gameTime);
+            this.validButton.Draw(gameTime);
+            this.scorePanel.Draw(gameTime);
         }
     }
 }

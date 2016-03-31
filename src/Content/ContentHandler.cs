@@ -9,6 +9,9 @@ namespace Tap
         public const string LogoTextureName = "Logo";
         public const string CustomerScoreBackground = "CustomerScoreBackground";
         public const string RedCrossButton = "RedCrossButton";
+        public const string HomeGrayButton = "HomeGrayButton";
+        public const string ReplayOrangeButton = "ReplayOrangeButton";
+        public const string ValidGreenButton = "ValidGreenButton";
         public const string FontSpriteFontName = "Font";
     }
 
